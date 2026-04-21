@@ -18,6 +18,29 @@ function fmt(s) {
     return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
 }
 
+function updateCup() {
+    const pct = 1 - (seconds / totalSeconds);
+    let cupImg;
+
+    if (pct === 0) {
+        cupImg = 'cup-0.png';
+    }
+    else if (pct < 0.25) {
+        cupImg = 'cup-25.png';
+    }
+    else if (pct < 0.5) {
+        cupImg = 'cup-50.png';
+    }
+    else if (pct < 0.75) {
+        cupImg = 'cup-75.png';
+    }
+    else {
+        cupImg = 'cup-100.png';
+    }
+
+    document.getElementById('cup-img').src = 'assets/' + cupImg;
+}
+
 function updateUI() {
     document.getElementById('timer-time').textContent = fmt(seconds);
     const labels = {
@@ -61,24 +84,25 @@ function tick() {
         return;
     }
     seconds--;
-    // meow u have to write the update cup function and uh call it here
+    if (mode === 'focus') updateCup();
     updateUI();
 }
 
 function onSessionEnd() {
-    if (mode == 'focus') {
+    if (mode === 'focus') {
         completedSession++;
         cupsToday++;
-        const isLong = completedSession % SESSION == 0;
+        const isLong = completedSession % SESSION === 0;
         document.getElementById('break-title').textContent = isLong ? 'long break!' : 'break time!';
-        document.getElementById('break-msg').textContent = isLong ? 'take a long break and relax!' : 'take a short break and stretch!'; // these r copilot's auto complete msgs. GENERIC. REPLACE.
+        document.getElementById('break-msg').textContent = isLong
+            ? 'you earned it. go get a real coffee.'
+            : 'step away, stretch, breathe.';
         document.getElementById('break-banner').style.display = 'block';
     }
     else {
         setMode('focus');
     }
     updateUI();
-
 }
 
 function dismissBreak() {
@@ -92,7 +116,7 @@ function resetTimer() {
     running = false;
     seconds = DURATIONS[mode] * 60;
     totalSeconds = seconds;
-    // cup reset. as soon as i do the art!!
+    updateCup();
     updateUI();
 }
 
@@ -112,10 +136,8 @@ function setMode(m) {
     document.querySelectorAll('.mode-btn').forEach((b, i) => {
         b.classList.toggle('active', ['focus', 'short', 'long'][i] === mode);
     });
-
-    //cup
+    updateCup();
     updateUI();
-
 }
 
 let tasks = [];
@@ -154,6 +176,5 @@ function renderTasks() {
     </div>
     `).join('');
 }
-// cup
+updateCup();
 updateUI();
-

@@ -2,31 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0/">
-    <title>coffeeco</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coffeco</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <header>
-        <div class="logo">
-            CoffeeCo
-        </div>
+        <div class="logo">coffeco</div>
         <div class="mode-btns">
-            <button class="mode-btn active" onclick="setMode('focus')">Focus</button>
+            <button class="mode-btn active" onclick="setMode('focus')">focus</button>
             <button class="mode-btn" onclick="setMode('short')">short break</button>
             <button class="mode-btn" onclick="setMode('long')">long break</button>
         </div>
-        <span style="font-size: 15px; color: rgba(61,31, 13, 0,45);" id="cups-label">0 cups today</span>
+        <span style="font-size: 13px; color: rgba(61,31,13,0.5);" id="cups-label">0 cups today</span>
     </header>
 
-    <div class="main" style="position: relative;">
+    <div class="main">
         <div class="center">
-            <!--timer-->
-            <div>
-                <div class="timer-label" id="timer-label">focus time</div>
-                <div class="timer-time" id="timer-time">25:00</div>
-                <div class="timer-session" id="timer-session">session 1 of 4</div>
 
+            <div class="cup-container">
+                <div class="cup-wrap" onclick="toggleTimer()">
+                    <img id="cup-img" class="cup-img" src="assets/cup-0.png" alt="coffee cup"/>
+                </div>
+                <div class="timer-overlay">
+                    <div class="timer-label" id="timer-label">focus time</div>
+                    <div class="timer-time" id="timer-time">25:00</div>
+                    <div class="timer-session" id="timer-session">session 1 of 4</div>
+                </div>
             </div>
 
             <div class="controls">
@@ -41,25 +43,24 @@
                 <div class="dot"></div>
                 <div class="dot"></div>
             </div>
+
         </div>
 
-        <!--sidebar-->
         <div class="sidebar">
-            <div class="sidebar-section" style="flex: 1; overflow-y:auto;">
-                <div class="section-title">today's tasks:</div>
+            <div class="sidebar-section">
+                <div class="section-title">today's tasks</div>
                 <div class="task-row">
-                    <input class="task-input" id="task-input" type="text" placeholder="add a task..." onkeydown="if(event.key === 'Enter') addTask()">
+                    <input class="task-input" id="task-input" type="text" placeholder="what are you working on?"
+                        onkeydown="if(event.key === 'Enter') addTask()"/>
                     <button class="task-add" onclick="addTask()">+</button>
                 </div>
                 <div class="task-list" id="task-list"></div>
             </div>
         </div>
 
-        <!--break pop up---->
-
         <div class="break-banner" id="break-banner">
             <h3 id="break-title">break time!</h3>
-            <p id="break-message">time to take a break! step away from work</p>
+            <p id="break-msg">get a coffee!!</p>
             <button onclick="dismissBreak()">start break</button>
         </div>
     </div>
