@@ -47,22 +47,113 @@
         </div>
 
         <div class="sidebar">
-            <div class="sidebar-section">
-                <div class="section-title">today's tasks</div>
-                <div class="task-row">
-                    <input class="task-input" id="task-input" type="text" placeholder="what are you working on?"
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('tasks')">tasks</div>
+                <div class="tab" onclick="switchTab('music')">music</div>
+                <div class="tab" onclick="switchTab('settings')">settings</div>
+            </div>
+
+            <div class="tab-pane active" id="pane-tasks">
+                <div class="pane-inner">
+                    <div class="section-title">today's tasks</div>
+                    <div class="task-row">
+                        <input class="task-input" id="task-input" type="text" placeholder="add your tasks here!" 
                         onkeydown="if(event.key === 'Enter') addTask()"/>
-                    <button class="task-add" onclick="addTask()">+</button>
+                        <button class="task-add" onclick="addTask()">+</button>
+                    </div>
+                    <div class="task-list" id="task-list"></div>
                 </div>
-                <div class="task-list" id="task-list"></div>
+            </div>
+
+            <div class="tab-pane" id="pane-music">
+                <div class="pane-inner">
+                    <div class="section-title">coffee theme music!</div>
+                    <div class="track" id="track-0" onclick="playTrack(0)">
+                        <div class="track-art">
+                            <img src="track.png" alt="track art"/>
+                        </div>
+                        <div class="track-info">
+                            <div class="track-name">coffee forever</div>
+                            <div class="track-vibe">cozy vibes</div>
+                        </div>
+                        <span class="track-play">▶</span>
+                    </div>
+
+                    <div class="track" id="track-1" onclick="playTrack(1)">
+                        <div class="track-art">
+                            <img src="track.png" alt="track art"/>
+                        </div>
+                        <div class="track-info">
+                            <div class="track-name">classical music</div>
+                            <div class="track-vibe">deadline!!</div>
+                        </div>
+                        <span class="track-play">▶</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="pane-settings">
+                <div class="pane-inner">
+                    <div class="section-title">timer</div>
+                    <div class="setting-row">
+                        <span class="setting-label">focus time</span>
+                        <input class="setting-input" id="setting-focus" type="number" value="25" min="1" max="120"/>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">short break</span>
+                        <input class="setting-input" id="setting-short" type="number" value="5" min="1" max="60"/>
+                    </div>
+
+                    <div class="setting-row">
+                        <span class="setting-label">long break</span>
+                        <input class="setting-input" id="setting-long" type="number" value="15" min="1" max="60"/>
+                    </div>
+
+                    <div class="setting-row">
+                        <span class="setting-label">sessions before long break</span>
+                        <input class="setting-input" id="setting-session" type="number" value="4" min="1" max="8"/>
+                    </div>
+
+                    <button class="apply-btn" onclick="applySettings()">apply</button>
+                </div>
+
+                <hr class="divider"/>
+                <div class="pane-inner">
+                    <div class="section-title">background</div>
+                    <div class="swatches">
+                        <div class="swatch active" style="background: #f5e6d3;" data-bg="#f5e6d3" onclick="setBg(this)" title="latte"></div>
+                        <div class="swatch" style="background: #f0dcc0;" data-bg="#f0dcc0" onclick="setBg(this)" title="caramel"></div>
+                        <div class="swatch" style="background: #e8d5c4;" data-bg="#e8d5c4" onclick="setBg(this)" title="mocha"></div>
+                        <div class="swatch" style="background: #ede8f5;" data-bg="#ede8f5" onclick="setBg(this)" title="lavender"></div>
+                        <div class="swatch" style="background: #e4ede8;" data-bg="#e4ede8" onclick="setBg(this)" title="sage"></div>
+                        <div class="swatch" style="background: #2c1a10;" data-bg="#2c1a10" onclick="setBg(this)" title="roasted"></div>
+                        <div class="swatch" style="background: #1a1f2e;" data-bg="#1a1f2e" onclick="setBg(this)" title="midnight"></div>
+                    </div>
+                </div>
+
+                <hr class="divider"/>
+                <div class="pane-inner">
+                    <div class="section-title">behaviour</div>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="auto-break" checked/>
+                        auto-start breaks?
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="auto-focus"/>
+                        auto start focus after break?
+                    </label>
+                </div>
             </div>
         </div>
+
 
         <div class="break-banner" id="break-banner">
             <h3 id="break-title">break time!</h3>
             <p id="break-msg">get a coffee!!</p>
             <button onclick="dismissBreak()">start break</button>
         </div>
+
+        <div id="toast"></div>
     </div>
 
     <script src="js/main.js"></script>
