@@ -1,160 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coffeco</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    <header>
-        <div class="logo">coffeco</div>
-        <div class="mode-btns">
-            <button class="mode-btn active" onclick="setMode('focus')">focus</button>
-            <button class="mode-btn" onclick="setMode('short')">short break</button>
-            <button class="mode-btn" onclick="setMode('long')">long break</button>
-        </div>
-        <span style="font-size: 13px; color: rgba(61,31,13,0.5);" id="cups-label">0 cups today</span>
-    </header>
-
-    <div class="main">
-        <div class="center">
-
-            <div class="cup-container">
-                <div class="cup-wrap" onclick="toggleTimer()">
-                    <img id="cup-img" class="cup-img" src="assets/cup-0.png" alt="coffee cup"/>
-                </div>
-                <div class="timer-overlay">
-                    <div class="timer-label" id="timer-label">focus time</div>
-                    <div class="timer-time" id="timer-time">25:00</div>
-                    <div class="timer-session" id="timer-session">session 1 of 4</div>
-                </div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>coffeco</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo">coffeco</div>
+            <div class="mode-btns">
+                <button class="mode-btn active" onclick="setMode('focus')">focus</button>
+                <button class="mode-btn" onclick="setMode('short')">short break</button>
+                <button class="mode-btn" onclick="setMode('long')">long break</button>
             </div>
+            <span style="font-size: 13px; color: var(--text-muted);" id="cups-label">0 cups today</span>
+        </header>
 
-            <div class="controls">
-                <button class="btn-sec" onclick="resetTimer()">↺</button>
-                <button class="btn-main" id="play-btn" onclick="toggleTimer()">▶</button>
-                <button class="btn-sec" onclick="skipSession()">⟩</button>
-            </div>
+        <div class="main">
+            <div class="center">
 
-            <div class="session-dots" id="session-dots">
-                <div class="dot current"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-        </div>
-
-        <div class="sidebar">
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('tasks')">tasks</div>
-                <div class="tab" onclick="switchTab('music')">music</div>
-                <div class="tab" onclick="switchTab('settings')">settings</div>
-            </div>
-
-            <div class="tab-pane active" id="pane-tasks">
-                <div class="pane-inner">
-                    <div class="section-title">today's tasks</div>
-                    <div class="task-row">
-                        <input class="task-input" id="task-input" type="text" placeholder="add your tasks here!" 
-                        onkeydown="if(event.key === 'Enter') addTask()"/>
-                        <button class="task-add" onclick="addTask()">+</button>
+                <div class="cup-container">
+                    <div class="cup-wrap" onclick="toggleTimer()">
+                        <img id="cup-img" class="cup-img" src="assets/cup-0.png" alt="coffee cup"/>
                     </div>
-                    <div class="task-list" id="task-list"></div>
+                    <div class="timer-overlay">
+                        <div class="timer-label" id="timer-label">focus time</div>
+                        <div class="timer-time" id="timer-time">25:00</div>
+                        <div class="timer-session" id="timer-session">session 1 of 4</div>
+                    </div>
                 </div>
+
+                <div class="controls">
+                    <button class="btn-sec" onclick="resetTimer()">↺</button>
+                    <button class="btn-main" id="play-btn" onclick="toggleTimer()">▶</button>
+                    <button class="btn-sec" onclick="skipSession()">⟩</button>
+                </div>
+
+                <div class="session-dots" id="session-dots"></div>
+
             </div>
 
-            <div class="tab-pane" id="pane-music">
-                <div class="pane-inner">
-                    <div class="section-title">coffee theme music!</div>
-                    <div class="track" id="track-0" onclick="playTrack(0)">
-                        <div class="track-art">
-                            <img src="track.png" alt="track art"/>
+            <div class="sidebar">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('tasks')">tasks</div>
+                    <div class="tab" onclick="switchTab('music')">music</div>
+                    <div class="tab" onclick="switchTab('settings')">settings</div>
+                </div>
+
+                <div class="tab-pane active" id="pane-tasks">
+                    <div class="pane-inner">
+                        <div class="section-title">today's tasks</div>
+                        <div class="task-row">
+                            <input class="task-input" id="task-input" type="text" placeholder="add your tasks here!" 
+                            onkeydown="if(event.key === 'Enter') addTask()"/>
+                            <button class="task-add" onclick="addTask()">+</button>
                         </div>
-                        <div class="track-info">
-                            <div class="track-name">coffee forever</div>
-                            <div class="track-vibe">cozy vibes</div>
+                        <div class="task-list" id="task-list"></div>
+
+                        <hr class="divider"/>
+                        <div class="section-title">spotify</div>
+
+                        <div class="sp-album-art">
+                            <img src="assets/spotify.png" alt="spotify album art">
                         </div>
-                        <span class="track-play">▶</span>
+
+                        <div class="sp-setup" id="sp-how">
+                            <div class="sp-setup-label">
+                                Paste your Spotify Client ID to connect:
+                            </div>
+                            <input id="sp-client-id" class="sp-client-input" placeholder="client_id..."/>
+                        </div>
+
+                        <button class="sp-connect-btn" id="sp-connect-btn" onclick="connectSpotify()">
+                            connect spotify
+                        </button>
+
+                        <div class="sp-player" id="sp-player">
+                            <div>
+                                <div class="sp-track-name" id="sp-track">not playing</div>
+                                <div class="sp-artist" id="sp-artist">—</div>
+                            </div>
+                            <div class="sp-controls">
+                                <button class="sp-btn" onclick="spPrev()">⏮</button>
+                                <button class="sp-btn play" id="sp-play-btn" onclick="spToggle()">▶</button>
+                                <button class="sp-btn" onclick="spNext()">⏭</button>
+                                <div class="sp-progress-wrap" onclick="spSeek(event)">
+                                    <div class="sp-progress-fill" id="sp-progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="pane-music">
+                    <div class="pane-inner">
+                        <div class="section-title">cozy sounds</div>
+
+                        <div class="track" id="track-0" onclick="playTrack(0)">
+                            <div class="track-art"><img src="" alt="" onerror="this.style.display='none'"/></div>
+                            <div class="track-info"><div class="track-name">morning brew</div><div class="track-vibe">lo-fi · warm</div></div>
+                            <span class="track-play">▶</span>
+                        </div>
+                        <div class="track" id="track-1" onclick="playTrack(1)">
+                            <div class="track-art"><img src="" alt="" onerror="this.style.display='none'"/></div>
+                            <div class="track-info"><div class="track-name">rainy window</div><div class="track-vibe">ambient · calm</div></div>
+                            <span class="track-play">▶</span>
+                        </div>
+                        <div class="track" id="track-2" onclick="playTrack(2)">
+                            <div class="track-art"><img src="" alt="" onerror="this.style.display='none'"/></div>
+                            <div class="track-info"><div class="track-name">café corner</div><div class="track-vibe">jazz · cozy</div></div>
+                            <span class="track-play">▶</span>
+                        </div>
+                        <div class="track" id="track-3" onclick="playTrack(3)">
+                            <div class="track-art"><img src="" alt="" onerror="this.style.display='none'"/></div>
+                            <div class="track-info"><div class="track-name">deep focus</div><div class="track-vibe">instrumental · focus</div></div>
+                            <span class="track-play">▶</span>
+                        </div>
+                        <div class="track" id="track-4" onclick="playTrack(4)">
+                            <div class="track-art"><img src="" alt="" onerror="this.style.display='none'"/></div>
+                            <div class="track-info"><div class="track-name">forest walk</div><div class="track-vibe">nature · peaceful</div></div>
+                            <span class="track-play">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="pane-settings">
+                    <div class="pane-inner">
+                        <div class="section-title">timer</div>
+                        <div class="setting-row">
+                            <span class="setting-label">focus (min)</span>
+                            <input class="setting-input" id="s-focus" type="number" value="25" min="1" max="120"/>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">short break</span>
+                            <input class="setting-input" id="s-short" type="number" value="5" min="1" max="60"/>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">long break</span>
+                            <input class="setting-input" id="s-long" type="number" value="15" min="5" max="90"/>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">sessions before long break</span>
+                            <input class="setting-input" id="s-sess" type="number" value="4" min="1" max="12"/>
+                        </div>
+
+                        <button class="apply-btn" onclick="applySettings()">apply</button>
                     </div>
 
-                    <div class="track" id="track-1" onclick="playTrack(1)">
-                        <div class="track-art">
-                            <img src="track.png" alt="track art"/>
+                    <hr class="divider"/>
+                    <div class="pane-inner">
+                        <div class="section-title">background</div>
+                        <div class="swatches" id="swatches">
+                            <div class="swatch-wrap" data-bg="#f5e6d3" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#f5e6d3;"></div>
+                                <span class="swatch-label">latte</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#f0dcc0" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#f0dcc0;"></div>
+                                <span class="swatch-label">caramel</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#e8d5c4" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#e8d5c4;"></div>
+                                <span class="swatch-label">mocha</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#ede8f5" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#ede8f5;"></div>
+                                <span class="swatch-label">lavender</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#e4ede8" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#e4ede8;"></div>
+                                <span class="swatch-label">sage</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#dde6ed" data-dark="false" onclick="setBg(this)">
+                                <div class="swatch" style="background:#dde6ed;"></div>
+                                <span class="swatch-label">mist</span>
+                            </div>
+                            <div class="swatch-wrap active" data-bg="#2c1a10" data-dark="true" onclick="setBg(this)">
+                                <div class="swatch" style="background:#2c1a10;border:1px solid rgba(255,255,255,0.15);"></div>
+                                <span class="swatch-label">dark roast</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#1a1f2e" data-dark="true" onclick="setBg(this)">
+                                <div class="swatch" style="background:#1a1f2e;border:1px solid rgba(255,255,255,0.15);"></div>
+                                <span class="swatch-label">midnight</span>
+                            </div>
+                            <div class="swatch-wrap" data-bg="#141a14" data-dark="true" onclick="setBg(this)">
+                                <div class="swatch" style="background:#141a14;border:1px solid rgba(255,255,255,0.15);"></div>
+                                <span class="swatch-label">forest</span>
+                            </div>
                         </div>
-                        <div class="track-info">
-                            <div class="track-name">classical music</div>
-                            <div class="track-vibe">deadline!!</div>
-                        </div>
-                        <span class="track-play">▶</span>
+                    </div>
+
+                    <hr class="divider"/>
+                    <div class="pane-inner">
+                        <div class="section-title">behaviour</div>
+                        <label class="toggle-row"><input type="checkbox" id="auto-break" checked/> auto-start breaks</label>
+                        <label class="toggle-row"><input type="checkbox" id="auto-focus"/> auto-start focus after break</label>
                     </div>
                 </div>
             </div>
 
-            <div class="tab-pane" id="pane-settings">
-                <div class="pane-inner">
-                    <div class="section-title">timer</div>
-                    <div class="setting-row">
-                        <span class="setting-label">focus time</span>
-                        <input class="setting-input" id="setting-focus" type="number" value="25" min="1" max="120"/>
-                    </div>
-                    <div class="setting-row">
-                        <span class="setting-label">short break</span>
-                        <input class="setting-input" id="setting-short" type="number" value="5" min="1" max="60"/>
-                    </div>
 
-                    <div class="setting-row">
-                        <span class="setting-label">long break</span>
-                        <input class="setting-input" id="setting-long" type="number" value="15" min="1" max="60"/>
-                    </div>
-
-                    <div class="setting-row">
-                        <span class="setting-label">sessions before long break</span>
-                        <input class="setting-input" id="setting-session" type="number" value="4" min="1" max="8"/>
-                    </div>
-
-                    <button class="apply-btn" onclick="applySettings()">apply</button>
-                </div>
-
-                <hr class="divider"/>
-                <div class="pane-inner">
-                    <div class="section-title">background</div>
-                    <div class="swatches">
-                        <div class="swatch active" style="background: #f5e6d3;" data-bg="#f5e6d3" onclick="setBg(this)" title="latte"></div>
-                        <div class="swatch" style="background: #f0dcc0;" data-bg="#f0dcc0" onclick="setBg(this)" title="caramel"></div>
-                        <div class="swatch" style="background: #e8d5c4;" data-bg="#e8d5c4" onclick="setBg(this)" title="mocha"></div>
-                        <div class="swatch" style="background: #ede8f5;" data-bg="#ede8f5" onclick="setBg(this)" title="lavender"></div>
-                        <div class="swatch" style="background: #e4ede8;" data-bg="#e4ede8" onclick="setBg(this)" title="sage"></div>
-                        <div class="swatch" style="background: #2c1a10;" data-bg="#2c1a10" onclick="setBg(this)" title="roasted"></div>
-                        <div class="swatch" style="background: #1a1f2e;" data-bg="#1a1f2e" onclick="setBg(this)" title="midnight"></div>
-                    </div>
-                </div>
-
-                <hr class="divider"/>
-                <div class="pane-inner">
-                    <div class="section-title">behaviour</div>
-                    <label class="toggle-row">
-                        <input type="checkbox" id="auto-break" checked/>
-                        auto-start breaks?
-                    </label>
-                    <label class="toggle-row">
-                        <input type="checkbox" id="auto-focus"/>
-                        auto start focus after break?
-                    </label>
-                </div>
+            <div class="break-banner" id="break-banner">
+                <h3 id="break-title">break time!</h3>
+                <p id="break-msg">step away, stretch, breathe.</p>
+                <button onclick="dismissBreak()">start break</button>
             </div>
+
+            <div class="pookie" id="pookie" onclick="pookieClick()">
+                <img src="assets/pookie.png" alt="pookie the cat"/>
+            </div>
+
+            <div id="toast"></div>
         </div>
 
-
-        <div class="break-banner" id="break-banner">
-            <h3 id="break-title">break time!</h3>
-            <p id="break-msg">get a coffee!!</p>
-            <button onclick="dismissBreak()">start break</button>
-        </div>
-
-        <div id="toast"></div>
-    </div>
-
-    <script src="js/main.js"></script>
-</body>
+        <script src="js/main.js"></script>
+    </body>
