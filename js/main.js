@@ -316,7 +316,6 @@ async function connectSpotify() {
     const redirectUri = 'https://coffeco-seven.vercel.app';
     const scopes = encodeURIComponent([
         'user-read-playback-state',
-        'user-modify-playback-state',
         'user-read-currently-playing',
     ].join(' '));
 
