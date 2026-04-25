@@ -313,7 +313,7 @@ async function connectSpotify() {
     localStorage.setItem('sp_verifier', verifier);
     localStorage.setItem('sp_client_id', clientId);
 
-    const redirectUri = 'https://coffeco-seven.vercel.app';
+    const redirectUri = 'https://coffeeco-seven.vercel.app';
     const scopes = encodeURIComponent([
         'user-read-playback-state',
         'user-read-currently-playing',
@@ -336,7 +336,7 @@ async function connectSpotify() {
 
     const verifier = localStorage.getItem('sp_verifier');
     const clientId = localStorage.getItem('sp_client_id');
-    const redirectUri = 'https://coffeco-seven.vercel.app';
+    const redirectUri = 'https://coffeeco-seven.vercel.app';
 
     window.history.replaceState(null, '', window.location.pathname);
 
