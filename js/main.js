@@ -290,39 +290,80 @@ function renderTasks() {
     rebuildDots();
 }
 
-function connectSpotify() {
+function generateVerifier() {
+    const arr = new Uint8Array(32);
+    window.crypto.getRandomValues(arr);
+    return btoa(String.fromCharCode(...arr))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function generateChallenge(verifier) {
+    const data = new TextEncoder().encode(verifier);
+    const digest = await window.crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function connectSpotify() {
     const clientId = document.getElementById('sp-client-id').value.trim();
-    if (!clientId) {
-        toast('paste your client id first!');
-        return;
-    }
-    const redirectUri = encodeURIComponent('https://coffeco-seven.vercel.app');
-    const scopes = encodeURIComponent ([
+    if (!clientId) { toast('paste your client id first!'); return; }
+
+    const verifier = generateVerifier();
+    const challenge = await generateChallenge(verifier);
+    localStorage.setItem('sp_verifier', verifier);
+    localStorage.setItem('sp_client_id', clientId);
+
+    const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+    const scopes = encodeURIComponent([
         'user-read-playback-state',
         'user-modify-playback-state',
         'user-read-currently-playing',
-        
     ].join(' '));
-    const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=${scopes}`;
-    window.location.href = authUrl;
+
+    window.location.href =
+        `https://accounts.spotify.com/authorize` +
+        `?client_id=${clientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${redirectUri}` +
+        `&scope=${scopes}` +
+        `&code_challenge_method=S256` +
+        `&code_challenge=${challenge}`;
 }
 
-(function checkSpotifyCallback() {
-    const hash = window.location.hash.slice(1);
-    const params = new URLSearchParams(hash);
-    const token = params.get('access_token');
-    if (!token) {
-        return;
-    }
+(async function checkSpotifyCallback() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (!code) return;
 
-    spToken = token;
+    const verifier = localStorage.getItem('sp_verifier');
+    const clientId = localStorage.getItem('sp_client_id');
+    const redirectUri = 'https://coffeco-seven.vercel.app';
+
     window.history.replaceState(null, '', window.location.pathname);
-    document.getElementById('sp-how').style.display = 'none';
+
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: redirectUri,
+            client_id: clientId,
+            code_verifier: verifier,
+        })
+    });
+
+    const data = await res.json();
+    if (!data.access_token) { toast('spotify auth failed :('); return; }
+
+    spToken = data.access_token;
+    localStorage.setItem('sp_token', spToken);
+
+    document.getElementById('sp-setup').style.display = 'none';
     document.getElementById('sp-connect-btn').style.display = 'none';
     document.getElementById('sp-player').style.display = 'flex';
     toast('spotify connected!');
     fetchCurrentTrack();
-
 })();
 
 function fetchCurrentTrack() {
