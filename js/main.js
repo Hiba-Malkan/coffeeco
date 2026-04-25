@@ -296,7 +296,7 @@ function connectSpotify() {
         toast('paste your client id first!');
         return;
     }
-    const redirectUri = encodeURIComponent(window.location.href.split('#')[0]);
+    const redirectUri = encodeURIComponent('https://coffeco-seven.vercel.app');
     const scopes = encodeURIComponent ([
         'user-read-playback-state',
         'user-modify-playback-state',
