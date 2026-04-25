@@ -313,7 +313,7 @@ async function connectSpotify() {
     localStorage.setItem('sp_verifier', verifier);
     localStorage.setItem('sp_client_id', clientId);
 
-    const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+    const redirectUri = encodeURIComponent('https://coffeco-seven.vercel.app');
     const scopes = encodeURIComponent([
         'user-read-playback-state',
         'user-modify-playback-state',
