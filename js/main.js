@@ -363,30 +363,34 @@ async function connectSpotify() {
     document.getElementById('sp-connect-btn').style.display = 'none';
     document.getElementById('sp-player').style.display = 'flex';
     toast('spotify connected!');
-    fetchCurrentTrack();
+    startSpotifyPolling();
 })();
 
 function fetchCurrentTrack() {
-    if (!spToken) {
-        return;
-    }
+    if (!spToken) return;
     fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-        headers: {
-            Authorization: 'Bearer ' + spToken
-        }
+        headers: { Authorization: 'Bearer ' + spToken }
     })
     .then(r => r.ok ? r.json() : null)
     .then(data => {
-        if (!data || !data.item) return;
+        if (!data || !data.item) {
+            document.getElementById('sp-track').textContent = 'nothing playing';
+            document.getElementById('sp-artist').textContent = '—';
+            return;
+        }
         document.getElementById('sp-track').textContent = data.item.name;
         document.getElementById('sp-artist').textContent = data.item.artists.map(a => a.name).join(', ');
-        const pct = data.progress_ms / data.item.duration_ms * 100;
-        document.getElementById('sp-progress').style.width = Math.round(pct) + '%';
         if (data.item.album.images[0]) {
             document.getElementById('sp-art-img').src = data.item.album.images[0].url;
         }
     })
     .catch(() => {});
+}
+
+// polls spotify every 10 seconds to keep display fresh
+function startSpotifyPolling() {
+    fetchCurrentTrack();
+    setInterval(fetchCurrentTrack, 10000);
 }
 
 function spToggle() {
