@@ -313,7 +313,7 @@ async function connectSpotify() {
     localStorage.setItem('sp_verifier', verifier);
     localStorage.setItem('sp_client_id', clientId);
 
-    const redirectUri = encodeURIComponent('https://coffeco-seven.vercel.app');
+    const redirectUri = 'https://coffeco-seven.vercel.app';
     const scopes = encodeURIComponent([
         'user-read-playback-state',
         'user-modify-playback-state',
@@ -324,7 +324,7 @@ async function connectSpotify() {
         `https://accounts.spotify.com/authorize` +
         `?client_id=${clientId}` +
         `&response_type=code` +
-        `&redirect_uri=${redirectUri}` +
+        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
         `&scope=${scopes}` +
         `&code_challenge_method=S256` +
         `&code_challenge=${challenge}`;
