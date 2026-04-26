@@ -1,8 +1,8 @@
-    const DURATIONS = {
-        focus: 25,
-        short: 5,
-        long: 15
-    }
+ const DURATIONS = {
+    focus: 25,
+    short: 5,
+    long: 15
+}
 
 let mode = 'focus';
 let running = false;
@@ -12,9 +12,11 @@ let completedSession = 0;
 let cupsToday = 0;
 let ticker = null;
 let sessions = 4;
-let lastCupImg = '';    const POOKIE_MSGS = [
-        'meow meow meoww', 'love you!!', 'coffeeee', 'touch grass, just not now', 'code!!', 'sleep... now what is that??'
-    ]
+let lastCupImg = '';
+
+const POOKIE_MSGS = [
+    'meow meow meoww', 'love you!!', 'coffeeee', 'touch grass, just not now', 'code!!', 'sleep... now what is that??'
+]
 
     function fmt(s) {
         return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
@@ -31,19 +33,19 @@ let lastCupImg = '';    const POOKIE_MSGS = [
         const pct = 1 - (seconds / totalSeconds);
         let cupImg;
 
-        if (pct <= 0.01) {
+        if (pct <= 0.25) {
             cupImg = 'cup-0.png';
         }
-        else if (pct < 0.26) {
+        else if (pct > 0.25 && pct <= 0.50) {
             cupImg = 'cup-25.png';
         }
-        else if (pct < 0.51) {
+        else if (pct > 0.50 && pct <= 0.75) {
             cupImg = 'cup-50.png';
         }
-        else if (pct < 0.76) {
+        else if (pct > 0.75 && pct <= 0.98) {
             cupImg = 'cup-75.png';
         }
-        else {
+        else if (pct > 0.98) {
             cupImg = 'cup-100.png';
         }
 
@@ -279,7 +281,7 @@ function renderTasks() {
         <input class="task-sessions" type="number" min="1" max="99" value="${t.sessions}" 
                onclick="event.stopPropagation()" 
                onchange="updateTaskSessions(${i}, this.value)" />
-        <span class="task-del" onclick="event.stopPropagation(); deleteTask(${i})">✗</span>
+        <span class="task-del" onclick="event.stopPropagation(); deleteTask(${i})">X</span>
     </div>
     `).join('');
     rebuildDots();
@@ -344,6 +346,7 @@ function pookieClick() {
     }, 350);
     
     toast(POOKIE_MSGS[Math.floor(Math.random() * POOKIE_MSGS.length)]);
-}    rebuildDots();
-    updateCup();
-    updateUI();
+}    
+rebuildDots();
+updateCup();
+updateUI();
