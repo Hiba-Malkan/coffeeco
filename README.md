@@ -1,4 +1,5 @@
 # CoffeeCo
+live demo: https://coffeeco-seven.vercel.app/
 
 ## what is coffeeco? 
 a cozy coffee themed pomodoro timer!(read more in features)
@@ -56,3 +57,11 @@ i built this for the caffeinated sidequest, its really cozy and its my perfect p
 
 ## feedback
 if you have any suggestions or feedback, please send me a dm on slack, or mention it in your vote!
+
+---
+## ai usage
+- used github's copilot for autocompletion and minor css fixes
+
+- i used ai to help with the spotify integration, but that didnt work as its only for premium users- the Spotify WebAPI, so i scrapped that and added a simple embed myself. in short, removed the ai part. 
+
+### written: monday, 27 apr, 2026 by Hiba
