@@ -1,4 +1,4 @@
- const DURATIONS = {
+const DURATIONS = {
     focus: 25,
     short: 5,
     long: 15
