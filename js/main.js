@@ -332,7 +332,9 @@ function playTrack(i) {
         currentAudio.currentTime = 0;
         currentAudio.play();
     });
-    currentAudio.play().catch(err => toast('could not play track'));
+    currentAudio.play().catch(err => {
+        if (err.name !== 'AbortError') toast('could not play track');
+    });
 
     activeTrack = i;
     toast('now playing: ' + names[i]);
