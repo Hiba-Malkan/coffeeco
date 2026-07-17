@@ -43,7 +43,7 @@ and visit localhost:8080
 ---
 
 ## known issues
-- for safari the main background doesnt change due to safari's werid caching. 
+- for safari the main background doesnt change due to safari's weird caching. 
 - fix/ workaround: switch to a different tab after applying a background colour and then switch back. it now applies it properly.
 
 this is recommended to be used on chrome, but apart from this issue in safari, it works fine in all other browsers (brave, chrome, firefox, opera)
@@ -51,17 +51,17 @@ this is recommended to be used on chrome, but apart from this issue in safari, i
 ---
 
 ## why i built it 
-i built this for the caffeinated sidequest, its really cozy and its my perfect pomodoro timer. i made it for me, and i hope to get use out of it. hope you enjoy it as well! 
+i built this for the caffeinated sidequest (flavortown), its really cozy and its my perfect pomodoro timer. i made it for me, and i hope to get use out of it. hope you enjoy it as well! 
 
 ---
 
 ## feedback
-if you have any suggestions or feedback, please send me a dm on slack, or mention it in your vote!
+if you have any suggestions or feedback, please send me a dm on slack (@grumpymarie)
 
 ---
 ## ai usage
 - used github's copilot for autocompletion and minor css fixes
 
-- i used ai to help with the spotify integration, but that didnt work as its only for premium users- the Spotify WebAPI, so i scrapped that and added a simple embed myself. in short, removed the ai part. 
+- i used ai to help with the spotify integration, but that didnt work as its only for premium users- the Spotify WebAPI, so i scrapped that and added a simple embed myself. in short, removed the ai part.
 
 ### written: monday, 27 apr, 2026 by Hiba
